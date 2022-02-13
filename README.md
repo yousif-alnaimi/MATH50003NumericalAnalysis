@@ -29,7 +29,7 @@ which is essential to  machine learning.
 
 1. [Structured Matrices](https://nbviewer.org/github/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/notebooks/StructuredMatrices.ipynb): we discuss types of structured matrices (permutations, orthogonal matrices, triangular, banded).
 3. [Decompositions](https://nbviewer.org/github/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/notebooks/Decompositions.ipynb): we discuss algorithms for computing matrix decompositions (QR and PLU decompositions) and their use in solving linear systems.
-3. Norms and condition numbers: we discuss vector and
+3. [Singular values and condition numbers](https://nbviewer.org/github/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/notebooks/SingularValues.ipynb): we discuss vector and
 matrix norms, and condition numbers for matrices, and the singular value decomposition.
 7. Differential Equations: we discuss the numerical solution of linear differential equations, 
 including both time-dependent ordinary differential equations and boundary value problems, by reduction to linear systems.
@@ -37,13 +37,11 @@ including both time-dependent ordinary differential equations and boundary value
 
 **Part III: Computing with functions**
 
-1. Interpolation: We discuss the use of polynomials to approximate
-functions from samples. 
-2. Fourier series: we discuss Fourier series and their usage in numerical computations
+1. Fourier series: we discuss Fourier series and their usage in numerical computations
 via the fast Fourier transform.
-5. Orthogonal Polynomials: we discuss orthogonal polynomials—polynomials orthogonal 
+2. Orthogonal Polynomials: we discuss orthogonal polynomials—polynomials orthogonal 
 with respect to a prescribed weight—and their usage in numerical computations.
-6. Integration: we discuss ways to approximate integrals, both definite and indefinite, using orthogonal polynomials and interpolation.
+3. Integration: we discuss ways to approximate integrals, both definite and indefinite, using orthogonal polynomials and interpolation.
 
 ## Assessment
 
@@ -55,13 +53,15 @@ with respect to a prescribed weight—and their usage in numerical computations.
 ## Problem sheets
 
 1. [Week 1](https://nbviewer.org/github/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week1.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week1s.ipynb)): Binary representation, integers, floating point numbers, and interval arithmetic
-2. [Week 2](https://nbviewer.org/github/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week2.ipynb): Finite-differences, dual numbers, and Newton iteration
-3. [Week 3](https://nbviewer.org/github/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week3.ipynb): dense, triangular, banded, permutation, rotation and reflection matrices
-4. [Week 4](https://nbviewer.org/github/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week4.ipynb): least squares, QR and PLU decompositions
+2. [Week 2](https://nbviewer.org/github/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week2.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week2s.ipynb)): Finite-differences, dual numbers, and Newton iteration
+3. [Week 3](https://nbviewer.org/github/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week3.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week3s.ipynb)): dense, triangular, banded, permutation, rotation and reflection matrices
+4. [Week 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week4.ipynb): least squares, QR and PLU decompositions
+4. [Week 5](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week4.ipynb): positive definite matrices, Cholesky, and SVD
 
 
 ## Reading List
 
+1. Nicholas J. Higham, [Accuracy and Stability of Numerical Algorithms](https://epubs.siam.org/doi/book/10.1137/1.9780898718027?mobileUi=0), Chapters 1–3
 1. Michael L. Overton, [Numerical Computing with IEEE Floating Point Arithmetic](https://epubs.siam.org/doi/book/10.1137/1.9780898718072), Chapters 2–6
 2. Lloyd N. Trefethen & David Bau III, [Numerical Linear Algebra](https://my.siam.org/Store/Product/viewproduct/?ProductId=950/&ct=c257a1956367c57b599612fbf383d0d3c674af4f9181d827444b5cdaca95b0686d6d20467a7c1e3290fb5b31c310ce74f5b2ede375934b844b1171bc734358e2), Chapters 1–4
 3. Lloyd N. Trefethen, [Approximation Theory and Approximation Practice](https://people.maths.ox.ac.uk/trefethen/ATAP/ATAPfirst6chapters.pdf), Chapters 1–4, 17–19
@@ -75,6 +75,17 @@ with respect to a prescribed weight—and their usage in numerical computations.
 2. [Floating Point Numbers](lectures/FloatingPoint.jpg)
 3. [Floating Point Arithmetic](lectures/Arithmetic.jpg)
 4. [Bounding Errors in Rounding](lectures/Rounding.jpg)
+5. [Finite Differences](lectures/FiniteDifferences.jpg)
+6. [Dual Numbers](lectures/DualNumbers.jpg)
+7. [Structured Matrices](lectures/StructuredMatrices.jpg)
+7. [Permutations](lectures/Permutations.jpg)
+7. [Orthogonal Matrices](lectures/OrthogonalMatrices.jpg)
+7. [Least Squares](lectures/LeastSquares.jpg)
+7. [Gram Schmidt and Reduced QR](lectures/GramSchmidt.jpg)
+7. [Householder and QR](lectures/Householder.jpg)
+7. [PLU Decomposition](lectures/PLU.jpg)
+
+
 
 ## What is numerical analysis? 
 

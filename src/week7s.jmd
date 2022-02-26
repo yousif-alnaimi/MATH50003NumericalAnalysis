@@ -1,22 +1,67 @@
+# MATH50003 Numerical Analysis: Problem Sheet 6
+
+This problem sheet explores condition numbers, indefinite integration,
+and Euler's method.
+
+Questions marked with a ⋆ are meant to be completed without using a computer.
+Problems are denoted A/B/C to indicate their difficulty.
+
+
+```julia
+using LinearAlgebra, Plots, Test
+```
 
 
 
-# 1. Two-point boundary value problems
 
-**Problem 1.1** Consider the heat equation:
+## 1. Two-point boundary value problems
+
+**Problem 1.1 (C)** Construct a finite-difference approximation to the
+forced Helmholtz equation
 $$
-u_t = u_{xx}
+\begin{align*}
+u(0) &= 0 \\
+u(1) &= 0 \\
+u'' + k^2 u &= {\rm e}^x
+\end{align*}
+$$
+and find an $n$ such  the error is less than $10^{-4}$ when compared
+with the true solution for $k=10$:
+$$
+u(x) = (-\cos(k x) + {\rm e}^x \cos(k x)^2 + \cot(k) \sin(k x) - {\rm e} \cos(k) \cot(k) \sin(k x) - {\rm e} \sin(k) \sin(k x) + {\rm e}^x \sin(k x)^2)/(1 + k^2)
 $$
 
+```julia
+function helm(k, n)
+    x = range(0, 1; length = n)
+    h = step(x)
+    # TODO: Create a SymTridiagonal discretisation
+    ## SOLUTION
+    T = SymTridiagonal([1; fill(k^2-2/h^2, n-2); 1], [0; fill(1/h^2, n-2)])
+    T \ [0; exp.(x[2:end-1]); 1]
+    ## END
+end
+
+k = 10
+u = x -> (-cos(k*x) + exp(x)cos(k*x)^2 + cot(k)sin(k*x) - ℯ*cos(k)cot(k)sin(k*x) - ℯ*sin(k)sin(k*x) + exp(x)sin(k*x)^2)/(1 + k^2)
+
+n = 10 # TODO: choose n to get convergence
+x = range(0, 1; length=n)
+@test norm(helm(k, n) - u.(x)) ≤ 1E-4
+```
 
 
 
-**Problem** Discretisations can also be used to solve eigenvalue equations.
+
+
+
+**Problem 1.2 (B)** Discretisations can also be used to solve eigenvalue equations.
 Consider the Schrödinger equation with quadratic oscillator:
 $$
 u(-L) = u(L) = 0, -u'' + x^2 u = λ u
 $$
-with zero Dirichlet conditions, where $L = 10$. Approximate the eigenvalues using `eigvals`.
+Approximate the eigenvalues using `eigvals(A)` (which returns the eigenvalues of a
+matrix `A`) with $L = 10$.
 Can you conjecture their exact value if $L = ∞$? (Hint: they are integers and the eigenvalues
 closest to zero are most accurate.)
 
@@ -27,3 +72,105 @@ x = range(-L,L; length=n)
 h = step(x)
 eigvals(SymTridiagonal(fill(2/h^2,n-2)  + x[2:end-1].^2, fill(-1/h^2, n-3)))
 ```
+
+**Problem 1.3⋆ (A)** Consider Helmholtz with Neumann conditions:
+$$
+u'(0) = c_0 \\
+u'(1) = c_1 \\
+u_{xx} + k^2 u = f(x)
+$$
+Write down the finite difference approximation approximating
+$u(x_k) ≈ u_k$ on
+ an evenly spaced grid $x_k = (k-1)/(n-1)$ for $k=1,…,n$
+using the first order derivative approximation conditions:
+$$
+\begin{align*}
+u'(0) &≈ (u_2-u_1)/h = c_0 \\
+u'(1) &≈ (u_n-u_{n-1})/h  = c_1
+\end{align*}
+$$
+Use pivoting to reduce the equation to one involving a
+symmetric tridiagonal matrix.
+
+## 2. Convergence
+
+**Problem 2.1⋆ (B)** For the equation
+$$
+\begin{align*}
+u(0) &= c_0 \\
+u' + au &= f(x)
+\end{align*}
+$$
+where $a ∈ ℝ$ and $0 ≤ x ≤ 1$,
+prove convergence as $n → ∞$ for the method constructed in PS6 using the approximation
+where we take the average of the two grid points:
+$$
+{u'(x_{k+1}) + u'(x_k) \over 2} ≈ {u_{k+1} - u_k \over h}.
+$$
+
+**Problem 2.2⋆ (A)** Consider the matrices
+$$
+L = \begin{bmatrix} 1 \\
+    -a_1 & 1 \\
+        & -a_2 & 1\\
+        && ⋱ & ⋱ \\
+        &&& -a_{n-1} & 1
+\end{bmatrix}, \qquad T = \begin{bmatrix} 1 \\
+    -a & 1 \\
+        & -a & 1\\
+        && ⋱ & ⋱ \\
+        &&& -a & 1
+\end{bmatrix}.
+$$
+By writing down the inverse explicitly prove that if $|a_k| ≤ a$ then
+$$
+\|L^{-1}\|_{1 → ∞} ≤ \|T^{-1}\|_{1 → ∞}.
+$$
+Use this to prove convergence as $n → ∞$ of forward Euler for
+$$
+\begin{align*}
+u(0) &= c_0 \\
+u'(x) - a(x)u(x) &= f(x)
+\end{align*}
+$$
+
+
+
+
+
+## 3. Fourier series
+
+**Problem 3.1⋆ (C)** Give explicit formulae for $f̂_k$ and $f̂_k^n$ for the following functions:
+$$
+\cos θ, \cos 4θ, \sin^4θ, {3 \over 3 - {\rm e}^{\rm i θ}}, {1 \over 1 - 2{\rm e}^{\rm i θ}}
+$$
+Hint: You may wish to try the change of variables $z = {\rm e}^{-{\rm i}θ}$.
+
+**Problem 3.2⋆ (B)** Prove that if the first $λ-1$ derivatives $f(θ), f'(θ), …, f^{(λ-1)}(θ)$ 
+are 2π-periodic and $f^{(λ)}$ is uniformly bounded  that
+$$
+|f̂_k| = O(|k|^{-λ})\qquad \hbox{as $|k| → ∞$}
+$$
+Use this to show for the Taylor case ($0 = f̂_{-1} = f̂_{-2} = ⋯$) that
+$$
+|f(θ) - ∑_{k=0}^{n-1} f̂_k {\rm e}^{{\rm i}kθ}| = O(n^{1-λ})
+$$
+
+
+**Problem 3.3⋆ (C)**
+If $f$ is a trigonometric polynomial  ($f̂_k = 0$ for $|k| > m$) show
+for $n ≥ 2m+1$ we can exactly recover $f$:
+$$
+f(θ) = \sum_{k=-m}^m f̂_k^n {\rm e}^{{\rm i} k θ}
+$$
+
+
+
+**Problem 3.4⋆ (B)** For the general (non-Taylor) case and $n = 2m+1$, prove convergence for
+$$
+f_{-m:m}(θ) := ∑_{k=-m}^m f̂_k^n {\rm e}^{{\rm i} k θ}
+$$
+to $f(θ)$ as $n \rightarrow ∞$.
+What is the rate of convergence if the first $λ-1$ derivatives $f(θ), f'(θ), …, f^{(λ-1)}(θ)$ 
+are 2π-periodic and $f^{(λ)}$ is uniformly bounded?
+

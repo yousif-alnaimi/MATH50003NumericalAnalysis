@@ -23,6 +23,7 @@ notebook("src/DifferentialEquations.jmd"; nkwds...)
 
 notebook("src/Fourier.jmd"; nkwds...)
 notebook("src/OrthogonalPolynomials.jmd"; nkwds...)
+notebook("src/Quadrature.jmd"; nkwds...)
 notebook("src/Applications.jmd"; nkwds...)
 
 
@@ -49,6 +50,18 @@ notebook("src/week4s.jmd"; skwds...)
 notebook("src/week5s.jmd"; skwds...)
 notebook("src/week6s.jmd"; skwds...)
 notebook("src/week7s.jmd"; skwds...)
+notebook("src/week8s.jmd"; skwds...)
 
+
+##
+# exams
+##
+
+notebook("src/practice.jmd"; skwds...)
+notebook("src/practices.jmd"; skwds...)
+
+##
+# extras
+##
 
 notebook("src/juliasheet.jmd"; skwds...)

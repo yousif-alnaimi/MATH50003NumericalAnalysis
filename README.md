@@ -39,15 +39,15 @@ including both time-dependent ordinary differential equations and boundary value
 
 1. [Fourier series](https://nbviewer.org/github/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/notebooks/Fourier.ipynb): we discuss Fourier series and their usage in numerical computations
 via the fast Fourier transform.
-2. Orthogonal Polynomials: we discuss orthogonal polynomials—polynomials orthogonal 
-with respect to a prescribed weight—and their usage in numerical computations.
-3. Applications: we discuss applications of Fourier series and orthogonal polynomials to
-interpolation, fast multiplication of polynomials, computing derivatives, solving differential equations.
+2. [Orthogonal Polynomials](https://nbviewer.org/github/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/notebooks/OrthogonalPolynomials.ipynb): we discuss orthogonal polynomials—polynomials orthogonal 
+with respect to a prescribed weight.
+2. Interpolation and Gaussian quadrature: we discuss polynomial interpolation,
+ Gaussian quadrature, and expansions in orthogonal polynomials.
 
 ## Assessment
 
-1. Practice late-term exam (computer-based Julia exam, not for credit, released on Blackboard): 4 March 2022, 3–5pm (1 hour exam, 1 hour upload/download)
-2. Late-term exam (computer-based Julia exam, released on Blackboard): 18 March 2022, 3–5pm (1 hour exam, 1 hour upload/download)
+1. [Practice computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/practice.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/practices.ipynb))
+2. Computer-based exam (released on Blackboard): 18 March 2022, 3–5pm (1 hour exam, 1 hour upload/download)
 3. Practice final exam (pen-and-paper, not for credit): Summer Term (TBC)
 3. Final exam (pen-and-paper): Summer Term (TBC)
 
@@ -58,10 +58,12 @@ interpolation, fast multiplication of polynomials, computing derivatives, solvin
 3. [Week 3](https://nbviewer.org/github/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week3.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week3s.ipynb)): dense, triangular, banded, permutation, rotation and reflection matrices
 4. [Week 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week4.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week4s.ipynb)): least squares, QR and PLU decompositions
 4. [Week 5](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week5.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week5s.ipynb)): positive definite matrices, Cholesky, and SVD
-4. [Week 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week6.ipynb): 
+4. [Week 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week6.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week6s.ipynb)): 
 Condition numbers, indefinite integration, and Euler methods
 5. [Week 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week7.ipynb): 
 Two point boundary value problems, convergence, and Fourier series
+5. [Week 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/week8.ipynb): 
+Discrete Fourier Transform (DFT), Fast Fourier Transform (FFT), and Orthogonal Polynomials.
 
 
 Additional problem sheets:

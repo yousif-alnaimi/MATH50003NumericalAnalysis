@@ -17,15 +17,35 @@ using LinearAlgebra, Plots, Test
 
 **Problem 1.1⋆ (C)** Show that the DFT $Q_n$ is symmetric ($Q_n = Q_n^⊤$) but not Hermitian ($Q_n ≠ Q_n^⋆$).
 
-**Problem 1.2⋆ (A)** Show that
+**Problem 1.2⋆ (A)** Show for $0 ≤ k,ℓ ≤ n-1$
 $$
-\sum_{j=1}^n \cos k θ_j \cos ℓ θ_j = \begin{cases} n & k = ℓ = 0 \\
-                                                  n/2 & k = ℓ \\
+{1 \over n} \sum_{j=1}^n \cos k θ_j \cos ℓ θ_j = \begin{cases} 1 & k = ℓ = 0 \\
+                                                  1/2 & k = ℓ \\
                                                   0 & \hbox{otherwise}
                                                   \end{cases}
 $$
-for $θ_j = π(j-1/2)/n$. Hint: this can be shown either replacing $\cos$ with 
-complex exponentials or using trigonometric identities.
+for $θ_j = π(j-1/2)/n$. Hint: Be careful as the $\theta_j$ differ from before, 
+and only cover half the period, $[0,\pi]$. Using symmetry may help.
+You may also consider replacing $\cos$ with 
+complex exponentials:
+$$
+\cos θ = {{\rm e}^{{\rm i}θ} + {\rm e}^{-{\rm i}θ} \over 2}.
+$$
+
+
+**SOLUTION**
+We have
+$$
+{1 \over n} \sum_{j=1}^n \cos k θ_j \cos ℓ θ_j = Σ_n[{\rm e}^{{\rm i} (k+ℓ) θ_j}] + 
+Σ_n[{\rm e}^{{\rm i} (k-ℓ) θ_j}] + 
+Σ_n[{\rm e}^{{\rm i} (ℓ-k) θ_j}] + Σ_n[{\rm e}^{{\rm i} (-k-ℓ) θ_j}] = 
+\begin{cases}
+1 & k+ \\
+0
+\end{cases}
+$$
+
+**END**
 
 **Problem 1.3⋆ (B)** Consider the Discrete Cosine Transform (DCT)
 $$
@@ -33,7 +53,7 @@ C_n := \begin{bmatrix}
 \sqrt{1/n} \\
  & \sqrt{2/n} \\ 
  && ⋱ \\
- &&& \sqrt{2n}
+ &&& \sqrt{2/n}
  \end{bmatrix}
 \begin{bmatrix}
     1 & ⋯ & 1\\
@@ -69,30 +89,31 @@ C = Diagonal([1/sqrt(n); fill(sqrt(2/n), n-1)]) * [cos((k-1)*θ[j]) for k=1:n, j
 C'C
 ```
 
+**END**
 
 **Problem 1.4 (B)**  A function with a jump does not have uniformly
-converging coefficients. Plot interpolant for $\sign(θ-1/2)$.
+converging coefficients. Plot interpolant for ${\rm sign}(θ-1/2)$.
 Conjecture where the approximation converges. (This is known as
-Gibb's phenomena.) **Note** This is non-examinable as it is computer-based,
-but may be good practice for implementing algorithms that is useful in the computer-based exam.
+Gibb's phenomena.) **Note** This is non-examinable as it is computer-based.
 
 ## 2. FFT 
 
-**Problem 2.1⋆ (B)** Show that $Q_n$ can also be applied in $O(n \log n)$ operations.
+**Problem 2.1⋆ (B)** Show that $Q_{2n}$ can also be reduced to $Q_n$ applied
+to two vectors.
 
 
 
 ## 3. Orthogonal polynomials
 
-**Problem 3.1 (B)** Construct  $p_0(x),p_1(x),p_2(x),p_3(x)$, OPs
+**Problem 3.1⋆  (B)** Construct  $p_0(x),p_1(x),p_2(x),p_3(x)$, monic OPs
 for the weight $\sqrt{1-x^2}$ on $[-1,1]$.
 Hint: first compute $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$ for $0 ≤ k ≤ 2$
 using a change-of-variables.
 
 
 
-**Problem (3-term recurrence, 1st form)**
-Show that f $\{p_n\}$ are OPs then there exist real constants $A_n ≠ 0$, $B_n$, and C_n$
+**Problem 3.2⋆  (C, 3-term recurrence, 1st form)**
+Show that if $\{p_n\}$ are OPs then there exist real constants $A_n ≠ 0$, $B_n$, and $C_n$
 such that
 $$
 \begin{align*}
@@ -100,26 +121,46 @@ p_1(x) &= (A_0 x + B_0) p_0(x) \\
 p_{n+1}(x) &= (A_n x + B_n) p_n(x) - C_n p_{n-1}(x)
 \end{align*}
 $$
-
-
-
-**Problem** Prove that a family of orthogonal
-polynomials are multiples of orthonormal
+Write this as a lower triangular linear system, given $p_0(x) = μ ∈ ℝ$:
 $$
-p_n(x) = D_n q_n(x)
-$$
-for $D_n ∈ ℝ$ such that $|D_n| = |D|$ if and only if $c_n = b_n$.
-
-**Problem** Prove that if $∫_a^b w(x) {\rm d}x$ then and $p_n(x)$ are OPs
-satisfying
-$$
-
-$$
-then the orthonormal polynomials are:
-$$
-q_n(x)
+L_x \begin{bmatrix} p_0(x) \\ \vdots \\ p_{n-1}(x) \end{bmatrix} = \begin{bmatrix} μ \\ 0 \\ ⋮ \\ 0 \end{bmatrix}
 $$
 
 
+**Problem 3.3⋆  (B)** Show that if $f(x)$ is a degree $n-1$ polynomial
+$$
+f(x) = [p_0(x) | ⋯ | p_{n-1}(x)] \underbrace{\begin{bmatrix} c_0 \\ \vdots \\ c_{n-1} \end{bmatrix}}_{\bf c}
+$$
+then evaluation at a point can be recast as inverting an upper triangular system
+(_Clenshaw's algorithm_):
+$$
+f(x) = μ𝐞_1^⊤ U_x^{-1} {\bf c}.
+$$
 
+**Problem 3.4⋆  (B)** If $w(-x) = w(x)$ for a weight supported on $[-b,b]$ show that $a_n = 0$.
+Hint: first show that the (monic) polynomials $p_{2n}(x)$ are even and $p_{2n+1}(x)$ are odd.
+
+**SOLUTION**
+
+Note that $p_0(x)$ is even. $a_0$ is zero:
+$$
+⟨p_0,x p_0(x)⟩ = \int_{-b}^b x w(x) {\rm d} x = 0
+$$
+which shows that
+$$
+p_1(x) = xp_0(x)
+$$
+is odd. We now proceed by induction. We have:
+$$
+⟨p_{2n},x p_{2n}(x)⟩ = \int_{-b}^b x w(x) p_{2n}(x)^2 {\rm d} x = 0
+$$
+since $x w(x) p_{2n}(x)^2$ is odd$. Meanwhile. This show that if $p_{2n}$ and
+$p_{2n-1}(x)$ is odd then
+$$
+p_{2n+1}(x) 
+$$
+
+
+
+**END**
 

@@ -1,48 +1,166 @@
+# MATH50003 Numerical Analysis: Problem Sheet 8
 
-## DFT
+This problem sheet explores the Discrete Fourier Transform (DFT),
+the Fast Fourier Transform (FFT), and orthogonal polynomials,
 
-**Problem** Show that $Q_n$ is symmetric ($Q_n = Q_n^⊤$) but not Hermitian ($Q_n ≠ Q_n^⋆$).
-
-**Problem** Show that $Q_n^⋆$ can also be applied in $O(n \log n)$ operations.
-
-
-**Problem 3.4**  A function with a jump does not have uniformly
-converging coefficients. Plot interpolant for $\sign(θ-1/2)$.
-Conjecture where the approximation converges. (This is known as
-Gibb's phenomena.)
+Questions marked with a ⋆ are meant to be completed without using a computer.
+Problems are denoted A/B/C to indicate their difficulty.
 
 
+```julia
+using LinearAlgebra, Plots, Test
+```
 
-## Orthogonal polynomials
 
-**Problem (A)** Prove the Christoffel-Darboux Formula:
+
+## 1. DFT
+
+**Problem 1.1⋆ (C)** Show that the DFT $Q_n$ is symmetric ($Q_n = Q_n^⊤$) but not Hermitian ($Q_n ≠ Q_n^⋆$).
+
+**Problem 1.2⋆ (A)** Show for $0 ≤ k,ℓ ≤ n-1$
 $$
-∑_{k = 0}^n q_k(x) q_k(y) =  {k_n \over k_{n+1}} {q_{n+1}(x) q_n(y) - q_n(x) q_{n+1}(y) \over x-y}
+{1 \over n} \sum_{j=1}^n \cos k θ_j \cos ℓ θ_j = \begin{cases} 1 & k = ℓ = 0 \\
+                                                  1/2 & k = ℓ \\
+                                                  0 & \hbox{otherwise}
+                                                  \end{cases}
 $$
-Hint: Consider
+for $θ_j = π(j-1/2)/n$. Hint: Be careful as the $\theta_j$ differ from before, 
+and only cover half the period, $[0,\pi]$. Using symmetry may help.
+You may also consider replacing $\cos$ with 
+complex exponentials:
 $$
-(x-y) [q_0(x) | ⋯ | q_n(x)] \begin{bmatrix} q_0(y) \\ ⋮ \\ q_n(y) \end{bmatrix}
+\cos θ = {{\rm e}^{{\rm i}θ} + {\rm e}^{-{\rm i}θ} \over 2}.
 $$
-and translating the formula
-$$
-x Q(x) = Q(x) X
-$$
-to finite-dimensions.
 
-**Proof**
 
+**SOLUTION**
 We have
 $$
-x [q_0(x) | ⋯ | q_n(x)] = [q_0(x) | ⋯ | q_{n+1}(x)] \underbrace{\begin{bmatrix}
-a_0 & c_0 \\
-b_0 & ⋱ & ⋱
-& ⋱ & a_n & \end{bmatrix}}_{X_n}
-$$
-Thus
-$$
-(x-y) [q_0(x) | ⋯ | q_n(x)] \begin{bmatrix} q_0(y) \\ ⋮ \\ q_n(y) \end{bmatrix}
-= [q_0(x) | ⋯ | q_{n+1}(x)] X_n \begin{bmatrix} q_0(y) \\ ⋮ \\ q_n(y) \end{bmatrix}
- - [q_0(x) | ⋯ | q_n(x)] X_n^⊤ \begin{bmatrix} q_0(y) \\ ⋮ \\ q_{n+1}(y) \end{bmatrix}
+{1 \over n} \sum_{j=1}^n \cos k θ_j \cos ℓ θ_j = Σ_n[{\rm e}^{{\rm i} (k+ℓ) θ_j}] + 
+Σ_n[{\rm e}^{{\rm i} (k-ℓ) θ_j}] + 
+Σ_n[{\rm e}^{{\rm i} (ℓ-k) θ_j}] + Σ_n[{\rm e}^{{\rm i} (-k-ℓ) θ_j}] = 
+\begin{cases}
+1 & k+ \\
+0
+\end{cases}
 $$
 
+**END**
+
+**Problem 1.3⋆ (B)** Consider the Discrete Cosine Transform (DCT)
+$$
+C_n := \begin{bmatrix}
+\sqrt{1/n} \\
+ & \sqrt{2/n} \\ 
+ && ⋱ \\
+ &&& \sqrt{2/n}
+ \end{bmatrix}
+\begin{bmatrix}
+    1 & ⋯ & 1\\
+    \cos θ_1 & ⋯ & \cos θ_n \\
+    ⋮ & ⋱ & ⋮ \\
+    \cos (n-1)θ_1 & ⋯ & \cos (n-1)θ_n
+\end{bmatrix}
+$$
+for $θ_j = π(j-1/2)/n$. Prove that $C_n$ is orthogonal: $C_n^⊤ C_n = C_n C_n^⊤ = I$.
+Hint: $C_n C_n^⊤ = I$ might be easier to show than $C_n^⊤ C_n = I$ using the previous problem.
+
+
+
+
+**SOLUTION**
+
+For 
+$$
+\begin{bmatrix}
+    1 & ⋯ & 1\\
+    \cos θ_1 & ⋯ & \cos θ_n \\
+    ⋮ & ⋱ & ⋮ \\
+    \cos (n-1)θ_1 & ⋯ & \cos (n-1)θ_n
+\end{bmatrix}
+$$
+
+
+Here is a computer-based demonstration:
+```julia
+n = 10
+θ = range(π/(2n); step=π/n, length=n) # n evenly spaced points starting at π/(2n) with step size π/n
+C = Diagonal([1/sqrt(n); fill(sqrt(2/n), n-1)]) * [cos((k-1)*θ[j]) for k=1:n, j=1:n]
+C'C
+```
+
+**END**
+
+**Problem 1.4 (B)**  A function with a jump does not have uniformly
+converging coefficients. Plot interpolant for ${\rm sign}(θ-1/2)$.
+Conjecture where the approximation converges. (This is known as
+Gibb's phenomena.) **Note** This is non-examinable as it is computer-based.
+
+## 2. FFT 
+
+**Problem 2.1⋆ (B)** Show that $Q_{2n}$ can also be reduced to $Q_n$ applied
+to two vectors.
+
+
+
+## 3. Orthogonal polynomials
+
+**Problem 3.1⋆  (B)** Construct  $p_0(x),p_1(x),p_2(x),p_3(x)$, monic OPs
+for the weight $\sqrt{1-x^2}$ on $[-1,1]$.
+Hint: first compute $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$ for $0 ≤ k ≤ 2$
+using a change-of-variables.
+
+
+
+**Problem 3.2⋆  (C, 3-term recurrence, 1st form)**
+Show that if $\{p_n\}$ are OPs then there exist real constants $A_n ≠ 0$, $B_n$, and $C_n$
+such that
+$$
+\begin{align*}
+p_1(x) &= (A_0 x + B_0) p_0(x) \\
+p_{n+1}(x) &= (A_n x + B_n) p_n(x) - C_n p_{n-1}(x)
+\end{align*}
+$$
+Write this as a lower triangular linear system, given $p_0(x) = μ ∈ ℝ$:
+$$
+L_x \begin{bmatrix} p_0(x) \\ \vdots \\ p_{n-1}(x) \end{bmatrix} = \begin{bmatrix} μ \\ 0 \\ ⋮ \\ 0 \end{bmatrix}
+$$
+
+
+**Problem 3.3⋆  (B)** Show that if $f(x)$ is a degree $n-1$ polynomial
+$$
+f(x) = [p_0(x) | ⋯ | p_{n-1}(x)] \underbrace{\begin{bmatrix} c_0 \\ \vdots \\ c_{n-1} \end{bmatrix}}_{\bf c}
+$$
+then evaluation at a point can be recast as inverting an upper triangular system
+(_Clenshaw's algorithm_):
+$$
+f(x) = μ𝐞_1^⊤ U_x^{-1} {\bf c}.
+$$
+
+**Problem 3.4⋆  (B)** If $w(-x) = w(x)$ for a weight supported on $[-b,b]$ show that $a_n = 0$.
+Hint: first show that the (monic) polynomials $p_{2n}(x)$ are even and $p_{2n+1}(x)$ are odd.
+
+**SOLUTION**
+
+Note that $p_0(x)$ is even. $a_0$ is zero:
+$$
+⟨p_0,x p_0(x)⟩ = \int_{-b}^b x w(x) {\rm d} x = 0
+$$
+which shows that
+$$
+p_1(x) = xp_0(x)
+$$
+is odd. We now proceed by induction. We have:
+$$
+⟨p_{2n},x p_{2n}(x)⟩ = \int_{-b}^b x w(x) p_{2n}(x)^2 {\rm d} x = 0
+$$
+since $x w(x) p_{2n}(x)^2$ is odd$. Meanwhile. This show that if $p_{2n}$ and
+$p_{2n-1}(x)$ is odd then
+$$
+p_{2n+1}(x) 
+$$
+
+
+
+**END**
 
